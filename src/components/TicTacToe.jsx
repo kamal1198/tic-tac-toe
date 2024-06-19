@@ -3,6 +3,13 @@ import Board from "./Board";
 import GameOver from "./GameOver";
 import GameState from "./GameState";
 import Reset from "./Reset";
+import GameOverSoundAsset from "../sounds/game_over.wav";
+import clickSoundAsset from "../sounds/click.wav";
+
+const gameOverSound = new Audio(GameOverSoundAsset)
+gameOverSound.volume = 0.2;
+const clicksound= new Audio(clickSoundAsset)
+clicksound.volume = .5;
 
 const PLAYER_X ='X';
 const PLAYER_O ='O';
@@ -75,12 +82,27 @@ if(tiles[index] !== null){
 };
 
 const handleReset = () =>{
-    console.log("reset");
-}
+ setGameState(GameState.inProgress);
+ setTitles(Array(9).fill(null));
+ setPlayerTurn(PLAYER_X);
+ setStrikeClass(null);
+};
 
 useEffect(()=>{
     checkWinner(tiles, setStrikeClass, setGameState);
-},[tiles])
+},[tiles]);
+
+useEffect(() => {
+if (tiles.some((tile) => tile !== null)){
+    clicksound.play();
+}
+}, [tiles]);
+
+useEffect(() =>{
+    if(gameState !== GameState.inProgress) {
+        gameOverSound.play();
+    }
+}, [gameState]);
 
     return(
 <div>
