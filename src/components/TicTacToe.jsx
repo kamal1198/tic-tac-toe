@@ -1,5 +1,6 @@
 import{useState, useEffect} from "react";
 import Board from "./Board";
+import GameOver from "./GameOver";
 
 const PLAYER_X ='X';
 const PLAYER_O ='O';
@@ -64,6 +65,7 @@ useEffect(()=>{
     <Board playerTurn={playerTurn} tiles={tiles} onTileClick={handleTileClick}
     strikeClass={strikeClass}
     />
+    <GameOver />
 </div>
     );
 }
